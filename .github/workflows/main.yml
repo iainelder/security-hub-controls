@@ -1,0 +1,35 @@
+name: Dump controls
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dump-controls:
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Dump controls
+        run: |
+          dump-controls > security-hub-controls.jsonl
+      
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+          # https://unix.stackexchange.com/questions/155046/determine-if-git-working-directory-is-clean-from-a-script
+          if [ -z "$(git status --porcelain)" ]; then 
+            printf "Working directory clean."
+            exit 0
+          end
+          
+          git add .
+          git commit -m "Dump controls"
+          git push
+
+    permissions:
+      contents: write
+    
+    runs-on: ubuntu-latest
