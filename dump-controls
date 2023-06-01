@@ -1,0 +1,92 @@
+#!/bin/env python3
+
+"""
+Dumps the documented Security Hub controls as JSON lines.
+
+Uses only the Python 3.8 standard library.
+"""
+
+from xml.etree.ElementTree import Element
+import urllib.request
+import urllib.parse
+import html5lib
+from typing import Any, Iterable, TypedDict, List, cast
+import json
+import sys
+
+
+USER_GUIDE_BASE_URL = "https://docs.aws.amazon.com/securityhub/latest/userguide/"
+CONTROLS_REFERENCE = "securityhub-controls-reference.html"
+
+
+class Control(TypedDict):
+  """Security Hub control metadata."""
+  Id: str
+  RelatedRequirements: str
+  Title: str
+  Severity: str
+  ScheduleType: str
+
+
+def main():
+    """Dumps the documented Security Hub controls as JSON lines."""
+    controls = get_available_controls()
+    dump_jsonlines(controls)
+
+
+def get_available_controls(base_url: str = USER_GUIDE_BASE_URL) -> List[Control]:
+    """Parses a list of Controls from the URL content."""
+    controls_url = urllib.parse.urljoin(base_url, CONTROLS_REFERENCE)
+    markup = request(controls_url)
+    return parse_controls(markup)
+
+
+def parse_controls(markup: bytes) -> List[Control]:
+    """Parses a list of Controls from an HTTP response.
+    
+    Assumes the response is HTML containing a table element."""
+    document = html5lib.parse(markup)
+    rows = findall(document, ".//tr[td]")
+    return [parse_control(r) for r in rows]
+
+
+def parse_control(row: Element) -> Any:
+    """Parses a Control from the table row."""
+    cells = findall(row, "./td")
+    texts = [normalize_text(c) for c in cells]
+    requirements = texts[1].split(", ")
+    return Control(
+        Id=texts[0],
+        RelatedRequirements=requirements,
+        Title=texts[2],
+        Severity=texts[3],
+        ScheduleType=texts[4],
+    )
+
+
+def normalize_text(elem: Element) -> str:
+    """Returns all the inner text with normalized spaces."""
+    return "".join(" ".join(text.split()) for text in elem.itertext())
+
+
+def findall(elem: Element, path: str) -> List[Element]:
+    """Calls elem.findall with the xhtml namespace."""
+    return elem.findall(path, namespaces={"": "http://www.w3.org/1999/xhtml"})
+
+
+def request(url: str) -> bytes:
+    """Requests the URL and returns the response body."""
+    req = urllib.request.Request(url)
+    return cast(bytes, urllib.request.urlopen(req).read())
+
+
+def dump_jsonlines(iterable: Iterable[Any], file=sys.stdout) -> None:
+    """Writes the iterable to the file in JSON lines format."""
+    for obj in iterable:
+        json.dump(obj, separators=(",", ":"), fp=file)
+        print(file=file)
+
+
+if __name__ == "__main__":
+    main()
+
