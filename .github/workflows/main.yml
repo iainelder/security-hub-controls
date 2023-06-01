@@ -25,10 +25,6 @@ jobs:
             exit 0
           end
 
-          git add .
-          git commit -m "Dump controls"
-          git push
-
     permissions:
       contents: write
     
