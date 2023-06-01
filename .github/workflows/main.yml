@@ -24,7 +24,7 @@ jobs:
             printf "Working directory clean."
             exit 0
           end
-          
+
           git add .
           git commit -m "Dump controls"
           git push
