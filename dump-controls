@@ -6,10 +6,9 @@ Dumps the documented Security Hub controls as JSON lines.
 Uses only the Python 3.8 standard library.
 """
 
-from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import Element, fromstring
 import urllib.request
 import urllib.parse
-import html5lib
 from typing import Any, Iterable, TypedDict, List, cast
 import json
 import sys
@@ -45,7 +44,7 @@ def parse_controls(markup: bytes) -> List[Control]:
     """Parses a list of Controls from an HTTP response.
     
     Assumes the response is HTML containing a table element."""
-    document = html5lib.parse(markup)
+    document = fromstring(markup)
     rows = findall(document, ".//tr[td]")
     return [parse_control(r) for r in rows]
 
@@ -89,4 +88,3 @@ def dump_jsonlines(iterable: Iterable[Any], file=sys.stdout) -> None:
 
 if __name__ == "__main__":
     main()
-
