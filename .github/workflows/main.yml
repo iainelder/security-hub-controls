@@ -12,7 +12,7 @@ jobs:
 
       - name: Dump controls
         run: |
-          dump-controls > security-hub-controls.jsonl
+          ./dump-controls > security-hub-controls.jsonl
       
       - name: Commit changes
         run: |
