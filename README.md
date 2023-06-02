@@ -74,7 +74,7 @@ cat controls.jsonl \
 ...
 ```
 
-Which controls (first 3) relate to requirement `NIST.800-53.r5 CA-9(1)`?
+Which controls relate to requirement `NIST.800-53.r5 CA-9(1)`?
 
 ```bash
 cat controls.jsonl \
