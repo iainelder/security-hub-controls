@@ -40,7 +40,7 @@ jobs:
 
       - name: Release dump
         id: release-dump
-        if: steps.check-diff.outputs.diff != ''
+        # if: steps.check-diff.outputs.diff != ''
         uses: softprops/action-gh-release@v1
         with:
           files: |
