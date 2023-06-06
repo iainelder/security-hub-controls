@@ -43,13 +43,14 @@ jobs:
       # https://gist.github.com/mjj2000/3ee188cc155c26a118b06116ad0ebd1d
       - name: Get release tag
         id: get-release-tag
+        if: steps.check-diff.outputs.diff != ''
         run: |
           tag=$(git describe --exact-match --tags 2> /dev/null || git rev-parse --short HEAD)
           printf tag=$tag > "$GITHUB_OUTPUT"
 
       - name: Release dump
         id: release-dump
-        # if: steps.check-diff.outputs.diff != ''
+        if: steps.check-diff.outputs.diff != ''
         uses: softprops/action-gh-release@v1
         with:
           files: |
