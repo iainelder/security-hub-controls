@@ -54,7 +54,7 @@ jobs:
         with:
           files: |
             security-hub-controls.jsonl
-          tag: ${{ steps.get-release-tag.outputs.tag }}
+          tag_name: ${{ steps.get-release-tag.outputs.tag }}
 
     permissions:
       contents: write
