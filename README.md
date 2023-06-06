@@ -17,11 +17,11 @@ Each line in `security-hub-controls.jsonl` looks like this when pretty-printed:
 ```json
 {
     "Id": "Account.1",
-    "RelatedRequirements": [
-        "NIST.800-53.r5 CM-2",
-        "NIST.800-53.r5 CM-2(2)"
-    ],
     "Title": "Security contact information should be provided for an AWS account",
+    "LinkedStandards": [
+        "AWS Foundational Security Best Practices v1.0.0",
+        "NIST SP 800-53 Rev. 5"
+    ],
     "Severity": "MEDIUM",
     "ScheduleType": "Periodic"
 }
@@ -53,14 +53,14 @@ cat controls.jsonl \
 ...
 ```
 
-Which related requirements have the most controls?
+How many controls does each linked standard have?
 
 ```bash
 cat controls.jsonl \
-| jq -c '.RelatedRequirements[]' \
+| jq -c '.LinkedStandards[]' \
 | jq -sc '
   group_by(.)
-  | map({RelatedRequirement: .[0], ControlCount: length})
+  | map({LinkedStandard: .[0], ControlCount: length})
   | sort_by(.ControlCount)
   | reverse
   | .[]
@@ -68,25 +68,25 @@ cat controls.jsonl \
 ```
 
 ```json
-{"RelatedRequirement":"NIST.800-53.r5 CA-9(1)","ControlCount":53}
-{"RelatedRequirement":"NIST.800-53.r5 SC-7(4)","ControlCount":50}
-{"RelatedRequirement":"NIST.800-53.r5 AC-4","ControlCount":49}
+{"LinkedStandard":"NIST SP 800-53 Rev. 5","ControlCount":226}
+{"LinkedStandard":"AWS Foundational Security Best Practices v1.0.0","ControlCount":207}
+{"LinkedStandard":"Service-Managed Standard: AWS Control Tower","ControlCount":163}
 ...
 ```
 
-Which controls relate to requirement `NIST.800-53.r5 CA-9(1)`?
+Which controls are linked to standard `Service-Managed Standard: AWS Control Tower`?
 
 ```bash
 cat controls.jsonl \
 | jq -c '
-  select(.RelatedRequirements | contains(["NIST.800-53.r5 CA-9(1)"]))
+  select(.LinkedStandards | contains(["Service-Managed Standard: AWS Control Tower"]))
   | {Id, Title}
 '
 ```
 
 ```json
-{"Id":"Account.2","Title":"AWS accounts should be part of an AWS Organizations organization"}
-{"Id":"APIGateway.5","Title":"API Gateway REST API cache data should be encrypted at rest"}
-{"Id":"AutoScaling.3","Title":"Auto Scaling group launch configurations should configure EC2 instances to require Instance Metadata Service Version 2 (IMDSv2)"}
+{"Id":"ACM.1","Title":"Imported and ACM-issued certificates should be renewed after a specified time period"}
+{"Id":"APIGateway.1","Title":"API Gateway REST and WebSocket API execution logging should be enabled"}
+{"Id":"APIGateway.2","Title":"API Gateway REST API stages should be configured to use SSL certificates for backend authentication"}
 ...
 ```
