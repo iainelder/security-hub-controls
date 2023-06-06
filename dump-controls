@@ -21,8 +21,8 @@ CONTROLS_REFERENCE = "securityhub-controls-reference.html"
 class Control(TypedDict):
   """Security Hub control metadata."""
   Id: str
-  RelatedRequirements: str
   Title: str
+  LinkedStandards: str
   Severity: str
   ScheduleType: str
 
@@ -45,19 +45,34 @@ def parse_controls(markup: bytes) -> List[Control]:
     
     Assumes the response is HTML containing a table element."""
     document = fromstring(markup)
+    check_header(document)
     rows = findall(document, ".//tr[td]")
     return [parse_control(r) for r in rows]
+
+
+def check_header(document: Element) -> None:
+    """Checks the table header has the expected column names."""
+    header_cells = findall(document, ".//tr/th")
+    header_texts = [normalize_text(c) for c in header_cells]
+    expected = [
+        "Security control ID",
+        "Security control title",
+        "Linked standards",
+        "Severity",
+        "Schedule type"
+    ]
+    assert header_texts == expected
 
 
 def parse_control(row: Element) -> Any:
     """Parses a Control from the table row."""
     cells = findall(row, "./td")
     texts = [normalize_text(c) for c in cells]
-    requirements = texts[1].split(", ")
+    requirements = texts[2].split(", ")
     return Control(
         Id=texts[0],
-        RelatedRequirements=requirements,
-        Title=texts[2],
+        Title=texts[1],
+        LinkedStandards=requirements,
         Severity=texts[3],
         ScheduleType=texts[4],
     )
