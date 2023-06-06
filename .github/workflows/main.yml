@@ -39,6 +39,14 @@ jobs:
           git tag "$(date --utc --iso-8601=date)"
           git push --tags
 
+      # Tag or commit hash.
+      # https://gist.github.com/mjj2000/3ee188cc155c26a118b06116ad0ebd1d
+      - name: Get release tag
+        id: get-release-tag
+        run: |
+          tag=$(git describe --exact-match --tags 2> /dev/null || git rev-parse --short HEAD)
+          printf tag=$tag > "$GITHUB_OUTPUT"
+
       - name: Release dump
         id: release-dump
         # if: steps.check-diff.outputs.diff != ''
@@ -46,6 +54,7 @@ jobs:
         with:
           files: |
             security-hub-controls.jsonl
+          tag: ${{ steps.get-release-tag.outputs.tag }}
 
     permissions:
       contents: write
