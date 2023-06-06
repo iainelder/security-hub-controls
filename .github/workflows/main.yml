@@ -38,6 +38,14 @@ jobs:
           git commit -m "Dump controls"
           git push
 
+      - name: Release dump
+        id: release-dump
+        if: steps.check-diff.outputs.diff != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            security-hub-controls.jsonl
+
     permissions:
       contents: write
     
