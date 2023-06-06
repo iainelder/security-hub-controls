@@ -11,23 +11,29 @@ jobs:
 
     steps:
       - name: Check out
+        id: check-out
         uses: actions/checkout@v3
 
       - name: Dump controls
+        id: dump-controls
         run: |
           ./dump-controls > security-hub-controls.jsonl
-      
+
+      # Could use git-diff-files as well on subsequent runs, but this detects
+      # when the file is written for the first time.
+      # https://unix.stackexchange.com/questions/155046/determine-if-git-working-directory-is-clean-from-a-script
+      # Use base64 to avoid frustration from quotes and newlines.
+      - name: Check diff
+        id: check-diff
+        run: |
+          printf diff=$(git status --porcelain | base64) > "$GITHUB_OUTPUT"
+
       - name: Commit changes
+        id: commit-changes
+        if: steps.check-diff.outputs.diff != ''
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-
-          # https://unix.stackexchange.com/questions/155046/determine-if-git-working-directory-is-clean-from-a-script
-          if [ -z "$(git status --porcelain)" ]; then
-            printf "Working directory clean."
-            exit 0
-          fi
-
           git add .
           git commit -m "Dump controls"
           git push
