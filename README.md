@@ -6,7 +6,7 @@ Version 1 scrapes the table from the main reference page. See `dump-controls` fo
 
 Version 2 will scrape the controls page for each service to include all the available data. See the `tutorial` folder for an attempt to do this by adapting the [Scrapy tutorial](https://docs.scrapy.org/en/latest/intro/tutorial.html). To try it, run `poetry install`, enter the folder, and run `scrapy crawl quotes`.
 
-I wrote this because there is no public API in the Security Hub service that provides this data. [DescribeStandardsControls](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandardsControls.html) provides less data than is available in the documentation and requires Security Hub to be enabled in an AWS account before it returns anything.
+Security Hub has a public API called [ListSecurityControlDefinitions](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_ListSecurityControlDefinitions.html) provides something similar to version 1 of this data. You need to enabled Security Hub in your AWS account before you can call the API. In any case, the documentation is still the most complete source for the data.
 
 I was inspired by fluggo's [AWS service authorization reference](https://github.com/fluggo/aws-service-auth-reference) and z0ph's [Monitor for AWS Managed IAM Policies](https://github.com/zoph-io/MAMIP).
 
