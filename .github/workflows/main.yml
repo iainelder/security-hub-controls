@@ -37,6 +37,7 @@ jobs:
           git add .
           git commit -m "Dump controls"
           git tag "$(date --utc --iso-8601=date)"
+          git push
           git push --tags
 
       # Tag or commit hash.
