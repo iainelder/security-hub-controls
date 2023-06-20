@@ -22,7 +22,7 @@ class Control(TypedDict):
   """Security Hub control metadata."""
   Id: str
   Title: str
-  LinkedStandards: str
+  ApplicableStandards: str
   Severity: str
   ScheduleType: str
 
@@ -57,7 +57,7 @@ def check_header(document: Element) -> None:
     expected = [
         "Security control ID",
         "Security control title",
-        "Linked standards",
+        "Applicable standards",
         "Severity",
         "Schedule type"
     ]
@@ -72,7 +72,7 @@ def parse_control(row: Element) -> Any:
     return Control(
         Id=texts[0],
         Title=texts[1],
-        LinkedStandards=requirements,
+        ApplicableStandards=requirements,
         Severity=texts[3],
         ScheduleType=texts[4],
     )

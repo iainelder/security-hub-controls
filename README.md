@@ -18,7 +18,7 @@ Each line in `security-hub-controls.jsonl` looks like this when pretty-printed:
 {
     "Id": "Account.1",
     "Title": "Security contact information should be provided for an AWS account",
-    "LinkedStandards": [
+    "ApplicableStandards": [
         "AWS Foundational Security Best Practices v1.0.0",
         "NIST SP 800-53 Rev. 5"
     ],
@@ -57,10 +57,10 @@ How many controls does each linked standard have?
 
 ```bash
 cat controls.jsonl \
-| jq -c '.LinkedStandards[]' \
+| jq -c '.ApplicableStandards[]' \
 | jq -sc '
   group_by(.)
-  | map({LinkedStandard: .[0], ControlCount: length})
+  | map({ApplicableStandard: .[0], ControlCount: length})
   | sort_by(.ControlCount)
   | reverse
   | .[]
@@ -68,9 +68,9 @@ cat controls.jsonl \
 ```
 
 ```json
-{"LinkedStandard":"NIST SP 800-53 Rev. 5","ControlCount":226}
-{"LinkedStandard":"AWS Foundational Security Best Practices v1.0.0","ControlCount":207}
-{"LinkedStandard":"Service-Managed Standard: AWS Control Tower","ControlCount":163}
+{"ApplicableStandard":"NIST SP 800-53 Rev. 5","ControlCount":227}
+{"ApplicableStandard":"AWS Foundational Security Best Practices v1.0.0","ControlCount":211}
+{"ApplicableStandard":"Service-Managed Standard: AWS Control Tower","ControlCount":172}
 ...
 ```
 
@@ -79,14 +79,14 @@ Which controls are linked to standard `Service-Managed Standard: AWS Control Tow
 ```bash
 cat controls.jsonl \
 | jq -c '
-  select(.LinkedStandards | contains(["Service-Managed Standard: AWS Control Tower"]))
+  select(.ApplicableStandards | contains(["Service-Managed Standard: AWS Control Tower"]))
   | {Id, Title}
 '
 ```
 
 ```json
+{"Id":"Account.1","Title":"Security contact information should be provided for an AWS account"}
 {"Id":"ACM.1","Title":"Imported and ACM-issued certificates should be renewed after a specified time period"}
 {"Id":"APIGateway.1","Title":"API Gateway REST and WebSocket API execution logging should be enabled"}
-{"Id":"APIGateway.2","Title":"API Gateway REST API stages should be configured to use SSL certificates for backend authentication"}
 ...
 ```
