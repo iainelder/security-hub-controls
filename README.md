@@ -90,3 +90,17 @@ cat controls.jsonl \
 {"Id":"APIGateway.1","Title":"API Gateway REST and WebSocket API execution logging should be enabled"}
 ...
 ```
+
+How does Security Hub check backups? (This example also shows how to format results as prose.)
+
+```bash
+cat controls.jsonl \
+| jq -r 'select(tostring | test("BACKUP"; "i")) | "\(.Id): \(.Title)"'
+```
+
+* DynamoDB.4: DynamoDB tables should be present in a backup plan
+* EC2.28: EBS volumes should be in a backup plan
+* EFS.2: Amazon EFS volumes should be in backup plans
+* ElastiCache.1: ElastiCache Redis clusters should have automatic backup enabled
+* RDS.11: RDS instances should have automatic backups enabled
+* RDS.26: RDS DB instances should be protected by a backup plan
