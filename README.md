@@ -16,14 +16,16 @@ Each line in `security-hub-controls.jsonl` looks like this when pretty-printed:
 
 ```json
 {
-    "Id": "Account.1",
-    "Title": "Security contact information should be provided for an AWS account",
-    "ApplicableStandards": [
-        "AWS Foundational Security Best Practices v1.0.0",
-        "NIST SP 800-53 Rev. 5"
-    ],
-    "Severity": "MEDIUM",
-    "ScheduleType": "Periodic"
+  "Id": "Account.1",
+  "Title": "Security contact information should be provided for an AWS account",
+  "ApplicableStandards": [
+    "AWS Foundational Security Best Practices v1.0.0",
+    "Service-Managed Standard: AWS Control Tower",
+    "NIST SP 800-53 Rev. 5"
+  ],
+  "Severity": "MEDIUM",
+  "SupportsCustomParameters": "No",
+  "ScheduleType": "Periodic"
 }
 ```
 

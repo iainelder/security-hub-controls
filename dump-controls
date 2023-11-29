@@ -24,6 +24,7 @@ class Control(TypedDict):
   Title: str
   ApplicableStandards: str
   Severity: str
+  SupportsCustomParameters: str
   ScheduleType: str
 
 
@@ -42,7 +43,7 @@ def get_available_controls(base_url: str = USER_GUIDE_BASE_URL) -> List[Control]
 
 def parse_controls(markup: bytes) -> List[Control]:
     """Parses a list of Controls from an HTTP response.
-    
+
     Assumes the response is HTML containing a table element."""
     document = fromstring(markup)
     check_header(document)
@@ -59,7 +60,8 @@ def check_header(document: Element) -> None:
         "Security control title",
         "Applicable standards",
         "Severity",
-        "Schedule type"
+        "Supports custom parameters",
+        "Schedule type",
     ]
     assert header_texts == expected
 
@@ -74,7 +76,8 @@ def parse_control(row: Element) -> Any:
         Title=texts[1],
         ApplicableStandards=requirements,
         Severity=texts[3],
-        ScheduleType=texts[4],
+        SupportsCustomParameters=texts[4],
+        ScheduleType=texts[5],
     )
 
 
