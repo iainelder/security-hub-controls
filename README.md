@@ -2,6 +2,8 @@
 
 A [JSONL-formatted](https://jsonlines.org/) scrape of the [AWS Security Hub controls reference](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-controls-reference.html), along with a Python program to update it.
 
+Use this repo to compliment the official [Change log for Security Hub controls](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-change-log.html). The official change log also describes planned breaking changes to controls such as removals and renames.
+
 Version 1 scrapes the table from the main reference page. See `dump-controls` for the implementation. Execute the script to try it.
 
 Version 2 will scrape the controls page for each service to include all the available data. See the `tutorial` folder for an attempt to do this by adapting the [Scrapy tutorial](https://docs.scrapy.org/en/latest/intro/tutorial.html). To try it, run `poetry install`, enter the folder, and run `scrapy crawl quotes`.
