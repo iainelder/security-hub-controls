@@ -46,8 +46,7 @@ curl \
 Which controls are rated critical by Security Hub?
 
 ```bash
-cat controls.jsonl \
-| jq -c 'select(.Severity == "CRITICAL") | {Id, Title}'
+jq < controls.jsonl -c 'select(.Severity == "CRITICAL") | {Id, Title}'
 ```
 
 ```json
@@ -60,9 +59,8 @@ cat controls.jsonl \
 How many controls does each linked standard have?
 
 ```bash
-cat controls.jsonl \
-| jq -c '.ApplicableStandards[]' \
-| jq -sc '
+jq < controls.jsonl -c '.ApplicableStandards[]' |
+jq -sc '
   group_by(.)
   | map({ApplicableStandard: .[0], ControlCount: length})
   | sort_by(.ControlCount)
@@ -81,8 +79,7 @@ cat controls.jsonl \
 Which controls are linked to standard `Service-Managed Standard: AWS Control Tower`?
 
 ```bash
-cat controls.jsonl \
-| jq -c '
+jq < controls.jsonl -c '
   select(.ApplicableStandards | contains(["Service-Managed Standard: AWS Control Tower"]))
   | {Id, Title}
 '
@@ -98,8 +95,7 @@ cat controls.jsonl \
 How does Security Hub check backups? (This example also shows how to format results as prose.)
 
 ```bash
-cat controls.jsonl \
-| jq -r 'select(tostring | test("BACKUP"; "i")) | "\(.Id): \(.Title)"'
+jq < controls.jsonl -r 'select(tostring | test("BACKUP"; "i")) | "\(.Id): \(.Title)"'
 ```
 
 * DynamoDB.4: DynamoDB tables should be present in a backup plan
