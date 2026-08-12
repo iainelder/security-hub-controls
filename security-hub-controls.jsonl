@@ -351,9 +351,6 @@
 {"Id":"IoT.4","Title":"AWS IoT Core authorizers should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
 {"Id":"IoT.5","Title":"AWS IoT Core role aliases should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
 {"Id":"IoT.6","Title":"AWS IoT Core policies should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
-{"Id":"IoTEvents.1","Title":"AWS IoT Events inputs should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
-{"Id":"IoTEvents.2","Title":"AWS IoT Events detector models should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
-{"Id":"IoTEvents.3","Title":"AWS IoT Events alarm models should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
 {"Id":"IoTSiteWise.1","Title":"AWS IoT SiteWise asset models should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
 {"Id":"IoTSiteWise.2","Title":"AWS IoT SiteWise dashboards should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
 {"Id":"IoTSiteWise.3","Title":"AWS IoT SiteWise gateways should be tagged","ApplicableStandards":["AWS Resource Tagging Standard"],"Severity":"LOW","SupportsCustomParameters":"Yes","ScheduleType":"Change triggered"}
